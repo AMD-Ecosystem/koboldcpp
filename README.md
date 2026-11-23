@@ -122,7 +122,7 @@ KoboldCpp provides many hardware configurations that can affect performance. Gen
   - **Adjusting Batch Size**: Use `--batchsize N` to adjust prompt-processing batch size. A smaller batch can use less memory but might be slower. Set `-1` to disable batching.
 - **GPU runs out of VRAM:** Try fewer GPU layers, a smaller model, or a shorter context. Autofit is an estimate and may need manual adjustment.
 - **Generation is slow:** Check that the intended GPU backend is selected and that layers are offloaded. CPU-only generation works, but speed depends on your hardware and model.
-  - **GPU Acceleration**: Windows and Linux users with GPUs can use `--usecuda`  flag (Nvidia Only), or `--usevulkan` (AMD, Nvidia, Intel GPUs) for GPU acceleration, make sure you select the correct .exe with CUDA support. This is also selectable in the hardware preset in the GUI launcher.
+  - **GPU Acceleration**: Windows and Linux users with GPUs can use `--usecuda`  flag (Nvidia, or AMD with a ROCm build), or `--usevulkan` (AMD, Nvidia, Intel GPUs) for GPU acceleration, make sure you select the correct .exe with CUDA support. This is also selectable in the hardware preset in the GUI launcher.
   - **GPU Layer Offloading**: Add `--gpulayers N` to offload model layers to the GPU. The default, `-1`, enables autofit; `0` disables GPU offloading. Lower the layer count if you run out of GPU memory.
 - **An older computer crashes at startup:** Some devices lack newer CPU instruction support. Try an `oldpc` release or use `--noavx2`. See the release notes for hardware compatibility.
 - **The browser cannot connect:** Wait for model loading to finish and check the address printed in the terminal. The default is [localhost:5001](http://localhost:5001); a custom `--port` changes it.
@@ -186,6 +186,8 @@ To build for other machines, use `KCPP_PORTABLE=1 ./koboldcpp.sh dist`. The pack
 | NVIDIA CUDA | `make LLAMA_CUBLAS=1` | CUDA Toolkit |
 | AMD ROCm | `make LLAMA_HIPBLAS=1` | ROCm development libraries |
 | CUDA and Vulkan | `make LLAMA_CUBLAS=1 LLAMA_VULKAN=1` | Both toolkits |
+
+ROCm builds compile for the GPUs that `amdgpu-arch` detects. Set `GPU_TARGETS` to choose them instead (for example `GPU_TARGETS="gfx942 gfx1100"`), or add `LLAMA_PORTABLE=1` for the release list. ROCm is looked up in `/opt/rocm`, or in `/usr` when that is absent; set `ROCM_PATH` for another location, such as a ROCm SDK installed with pip (`ROCM_PATH=$(rocm-sdk path --root)`).
 
 After building, launch with `python3 koboldcpp.py --model /path/to/model.gguf`.
 
