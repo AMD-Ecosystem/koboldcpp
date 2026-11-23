@@ -347,8 +347,9 @@ ROCM_RDNA4_TARGETS := gfx12-generic
 endif
 # RDNA 3 and 3.5 share a generic target but require different MMQ and MMVQ
 # launch configurations. Keep their device code specialized, as with CDNA.
-# Preserve the original portable coverage, plus gfx1151 for Radeon 8060S.
-GPU_TARGETS := $(sort gfx803 gfx900 gfx906 gfx908 gfx90a gfx942 \
+# Preserve the original portable coverage, plus gfx950 for Instinct MI350
+# series and gfx1151 for Radeon 8060S.
+GPU_TARGETS := $(sort gfx803 gfx900 gfx906 gfx908 gfx90a gfx942 gfx950 \
                     gfx1100 gfx1101 gfx1102 gfx1151 \
                     $(ROCM_RDNA1_TARGETS) $(ROCM_RDNA2_TARGETS) $(ROCM_RDNA4_TARGETS) $(ROCM_DETECTED_TARGETS))
 else
